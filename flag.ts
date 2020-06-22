@@ -143,12 +143,12 @@ function setStock(userId: string, isStock: boolean, stockValue?: number) {
 
 /**
  * ターン終了フラグを変更する
- * @param userId ユーザーID
+ * @param groupId グループID
  * @param isStock ターン終了ならtrue
  */
-function setFinishTurn(userId: string, finished: boolean) {
+function setFinishTurn(groupId: string, finished: boolean) {
   //ユーザーのシートを手に入れる
-  var SpreadSheet = getSpreadSheet(userId);
+  var SpreadSheet = getSpreadSheet(groupId);
   // これでフラグの載っているのシートを取得
   var gameSheet = SpreadSheet.getSheetByName(GAME_DATA_SHEET_NAME);
   //フラグをセット

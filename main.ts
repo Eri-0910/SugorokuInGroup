@@ -16,8 +16,6 @@ var line_endpoint = 'https://api.line.me/v2/bot/message/reply';
 //JSONをパースする
 function doPost(e) {
   try {
-    makePrintLog(e.postData);
-    makePrintLog(e.postData.contents);
     var json = JSON.parse(e.postData.contents);
 
     //返信するためのトークン取得
@@ -28,6 +26,8 @@ function doPost(e) {
 
     //送ってきたユーザーのIDを取得
     var userId = json.events[0].source.userId;
+    //グループのID
+    var groupId = json.events[0].source.groupId;
 
     //送られたLINEメッセージを取得
     var userMessage = json.events[0].message.text;
@@ -39,8 +39,9 @@ function doPost(e) {
     var isCommand: CommandObj = commandParser(splitMessage[0]);
 
     //アクションを実行しメッセージを取得
-    var replyMessages: Object[] = gameAction(userId, isCommand);
+    var replyMessages: Object[] = gameAction(groupId, userId, isCommand);
 
+    makePrintLog(replyMessages.length);
     //長さの設定
     if (replyMessages.length > 5) {
         setNextMessage(userId, replyMessages.slice(4, replyMessages.length));
